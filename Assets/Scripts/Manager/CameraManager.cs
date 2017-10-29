@@ -10,6 +10,8 @@ public class CameraManager : MonoBehaviour {
 
 	void Start() {
 		transform.position = new Vector3 (data.cam_pos_x, data.cam_pos_y, data.cam_pos_z);
+		//Debug.Log (data.cam_pos_x);
+		//Debug.Log (transform.position.x);
 	}
 
 	void FixedUpdate()
