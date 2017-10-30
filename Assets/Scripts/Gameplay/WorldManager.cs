@@ -6,12 +6,14 @@ public class WorldManager : MonoBehaviour {
     public MeshManager sub_mesh_prefab;
 	public WaterTile water_tile_prefab;
     MeshManager[,] sub_meshes;
+	int submesh_size;
 	GameData data = GameData.current;
 
     void Start()
 	{
-		int cols = Mathf.CeilToInt(data.x_size / (float)data.mesh_subdivision_size);
-		int rows = Mathf.CeilToInt(data.z_size / (float)data.mesh_subdivision_size);
+		submesh_size = PlayerPrefs.GetInt("submesh_size");
+		int cols = Mathf.CeilToInt(data.x_size / (float)submesh_size);
+		int rows = Mathf.CeilToInt(data.z_size / (float)submesh_size);
         sub_meshes = new MeshManager[cols, rows];
 
 		int x, z;
@@ -21,8 +23,8 @@ public class WorldManager : MonoBehaviour {
             for (z = 0; z < rows; z++) {
 
                 //Calculate Position and Size of Submesh
-				IntVector2 sub_pos = new IntVector2(x * data.mesh_subdivision_size, z * data.mesh_subdivision_size);
-				IntVector2 sub_size = new IntVector2(Mathf.Min(data.mesh_subdivision_size, data.x_size - sub_pos.x), Mathf.Min(data.mesh_subdivision_size, data.z_size - sub_pos.z));
+				IntVector2 sub_pos = new IntVector2(x * submesh_size, z * submesh_size);
+				IntVector2 sub_size = new IntVector2(Mathf.Min(submesh_size, data.x_size - sub_pos.x), Mathf.Min(submesh_size, data.z_size - sub_pos.z));
                 IntVector2 sub_vsize = sub_size + 1;
 
 				//Generate Mesh Data
@@ -94,15 +96,15 @@ public class WorldManager : MonoBehaviour {
 
     public void tintTexture(int pos_x, int pos_z, Color col)
     {
-		int x = pos_x / data.mesh_subdivision_size;
-		int z = pos_z / data.mesh_subdivision_size;
-		sub_meshes[x, z].setTexture(pos_x % data.mesh_subdivision_size, pos_z % data.mesh_subdivision_size, (data.world_tiles[pos_x, pos_z].getColor() + col) / 2);
+		int x = pos_x / submesh_size;
+		int z = pos_z / submesh_size;
+		sub_meshes[x, z].setTexture(pos_x % submesh_size, pos_z % submesh_size, (data.world_tiles[pos_x, pos_z].getColor() + col) / 2);
     }
 
     public void redoTexture(int pos_x, int pos_z)
     {
-		int x = pos_x / data.mesh_subdivision_size;
-		int z = pos_z / data.mesh_subdivision_size;
-		sub_meshes[x, z].setTexture(pos_x % data.mesh_subdivision_size, pos_z % data.mesh_subdivision_size, data.world_tiles[pos_x, pos_z].getColor());
+		int x = pos_x / submesh_size;
+		int z = pos_z / submesh_size;
+		sub_meshes[x, z].setTexture(pos_x % submesh_size, pos_z % submesh_size, data.world_tiles[pos_x, pos_z].getColor());
     }
 }

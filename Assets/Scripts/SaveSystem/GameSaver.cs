@@ -6,15 +6,17 @@ using UnityEngine.SceneManagement;
 public class GameSaver : MonoBehaviour {
 
 	GameData data = GameData.current;
-	float countdown = 100f;
 
-	void Update () {
-		countdown -= Time.deltaTime;
+	void FixedUpdate () {
 		if (Input.GetKey (KeyCode.Escape)) {
-			saveGame();
+			saveGame ();
 			SceneManager.LoadScene ("Menu");
 		}
-		else if ((Input.GetKey (KeyCode.LeftControl) && Input.GetKeyDown ("f")) || countdown < 0) saveGame ();
+		else if (Input.GetKey (KeyCode.LeftControl) && Input.GetKeyDown ("s")) saveGame ();
+	}
+
+	void OnApplicationQuit() {
+		saveGame ();
 	}
 
 	void saveGame() {
@@ -23,6 +25,5 @@ public class GameSaver : MonoBehaviour {
 		data.cam_pos_y = Camera.main.transform.position.y;
 		SaveLoad.saveGame();
 		Debug.Log ("saved");
-		countdown = 100f;
 	}
 }

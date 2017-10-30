@@ -10,7 +10,6 @@ public class GameData
 	public float[,] elevations;
 	public float[,] water_times;
 	public WorldTile[,] world_tiles;
-	public int mesh_subdivision_size = 100;
 	public int x_size, z_size;
 	public int water_height;
 	public float wave_height;

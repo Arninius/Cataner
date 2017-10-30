@@ -17,8 +17,11 @@ public class MainMenu : MonoBehaviour {
 	public InputField game_name;
 	public InputField x_size, z_size, y_size;
 	public InputField world_seed, noise_interval;
-	public InputField mesh_subdivision_size, noise_octaves;
+	public InputField noise_octaves;
 	public InputField water_height, wave_height;
+
+	//Options
+	public InputField submesh_size;
 
 	//Load Game
 	public GameObject LG_Button_Prefab;
@@ -26,6 +29,12 @@ public class MainMenu : MonoBehaviour {
 
 	void Start()
 	{
+		if (PlayerPrefs.GetInt ("submesh_size") == 0)
+			PlayerPrefs.SetInt ("submesh_size", 100);
+		submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
+
+		NG_buttons [NG_selected_menu].image.color = Color.grey;
+
 		int gameAmount = SaveLoad.getAmount ();
 		if (gameAmount > 0) {
 			for (int i = 0; i < gameAmount; i++) {
@@ -40,7 +49,6 @@ public class MainMenu : MonoBehaviour {
 			continue_button.interactable = false;
 			load_game_button.interactable = false;
 		}
-		NG_buttons [NG_selected_menu].image.color = Color.grey;
 	}
 
 	public void generateSeed() {
@@ -94,6 +102,11 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void changeSettings () {
+		PlayerPrefs.SetInt ("submesh_size", Mathf.Max(1, int.Parse(submesh_size.text)));
+		PlayerPrefs.Save ();
+	}
 
+	public void quitGame () {
+		Application.Quit ();
 	}
 }
