@@ -5,7 +5,6 @@ using System.Collections;
 public class GameData
 {
 	public static GameData current;
-	public string path;
 
 	//World
 	public float[,] elevations;

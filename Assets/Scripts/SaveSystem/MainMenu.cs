@@ -29,12 +29,12 @@ public class MainMenu : MonoBehaviour {
 		int saveAmount = SaveLoad.saveAmount ();
 		if (saveAmount > 0) {
 			for (int i = 0; i < saveAmount; i++) {
-				int index = i;
+				string name = SaveLoad.getName (i);
 				GameObject b = Instantiate (LG_Button_Prefab, LG_Panel);
-				b.transform.GetChild (0).GetChild (0).GetComponent<Text>().text = SaveLoad.getName(index);
-				b.transform.GetChild (0).GetChild (1).GetComponent<Text>().text = SaveLoad.getDate(index);
-				b.transform.GetChild (1).GetChild (0).GetComponent<Button>().onClick.AddListener (() => loadSave (index));
-				b.transform.GetChild (1).GetChild (1).GetComponent<Button>().onClick.AddListener (() => deleteSave (index));
+				b.transform.GetChild (0).GetChild (0).GetComponent<Text>().text = name;
+				b.transform.GetChild (0).GetChild (1).GetComponent<Text>().text = SaveLoad.getDate(i);
+				b.transform.GetChild (1).GetChild (0).GetComponent<Button>().onClick.AddListener (() => loadGame (name));
+				b.transform.GetChild (1).GetChild (1).GetComponent<Button>().onClick.AddListener (() => deleteGame (name, b));
 			}
 		} else {
 			continue_button.interactable = false;
@@ -55,7 +55,7 @@ public class MainMenu : MonoBehaviour {
 		NG_panels [NG_selected_menu].SetActive (true);
 	}
 
-	public void NewGame() {
+	public void newGame() {
 		GameData gd = new GameData (
             int.Parse (x_size.text),
             int.Parse (z_size.text),
@@ -68,20 +68,27 @@ public class MainMenu : MonoBehaviour {
             float.Parse (wave_height.text)
         );
 		GameData.current = gd;
-		SaveLoad.saveNew (game_name.text);
+		SaveLoad.newGame (game_name.text);
+		SaveLoad.saveGame ();
 		SceneManager.LoadScene ("Game");
 	}
 
-	public void Continue() {
-		SaveLoad.continueGame ();
+	public void latestGame() {
+		SaveLoad.latestGame ();
+		SceneManager.LoadScene ("Game");
+	}
+	
+	public void loadGame(string name) {
+		SaveLoad.loadGame (name);
 		SceneManager.LoadScene ("Game");
 	}
 
-	public void loadSave(int index) {
-		Debug.Log ("Load " + index);
-	}
-
-	public void deleteSave(int index) {
-		Debug.Log ("Delete " + index);
+	public void deleteGame(string name, GameObject b) {
+		SaveLoad.deleteGame (name);
+		Destroy (b);
+		if (SaveLoad.saveAmount() == 0) {
+			continue_button.interactable = false;
+			load_game_button.interactable = false;
+		}
 	}
 }

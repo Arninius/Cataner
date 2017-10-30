@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameSaver : MonoBehaviour {
 
 	GameData data = GameData.current;
-	float countdown = 10f;
+	float countdown = 100f;
 
 	void Update () {
 		countdown -= Time.deltaTime;
@@ -13,7 +13,7 @@ public class GameSaver : MonoBehaviour {
 			data.cam_pos_x = Camera.main.transform.position.x;
 			data.cam_pos_z = Camera.main.transform.position.z;
 			data.cam_pos_y = Camera.main.transform.position.y;
-			SaveLoad.saveCurrent ();
+			SaveLoad.saveGame();
 			Debug.Log ("saved");
 			countdown = 100f;
 		}
