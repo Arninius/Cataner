@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour {
+public class GameMenu : MonoBehaviour {
 
     public WorldManager world_manager;
 	IntVector2 sel = new IntVector2(0, 0);

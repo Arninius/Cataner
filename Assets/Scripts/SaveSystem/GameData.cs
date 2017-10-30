@@ -10,7 +10,7 @@ public class GameData
 	public float[,] elevations;
 	public float[,] water_times;
 	public WorldTile[,] world_tiles;
-	public int mesh_subdivision_size;
+	public int mesh_subdivision_size = 100;
 	public int x_size, z_size;
 	public int water_height;
 	public float wave_height;
@@ -26,14 +26,12 @@ public class GameData
 		int y_size,
 		int seed,
 		float noise_interval,
-		int mesh_subdivision_size,
 		int noise_octaves,
 		int water_height,
 		float wave_height)
 	{
 		noise_interval /= 4;
 
-		this.mesh_subdivision_size = mesh_subdivision_size;
 		this.x_size = x_size; this.z_size = z_size;
 		this.water_height = water_height;
 		this.wave_height = wave_height;

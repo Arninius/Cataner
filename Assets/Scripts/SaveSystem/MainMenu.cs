@@ -62,7 +62,6 @@ public class MainMenu : MonoBehaviour {
             int.Parse (y_size.text),
             int.Parse (world_seed.text),
             float.Parse (noise_interval.text),
-            int.Parse (mesh_subdivision_size.text),
             int.Parse (noise_octaves.text),
             int.Parse (water_height.text),
             float.Parse (wave_height.text)
@@ -92,5 +91,9 @@ public class MainMenu : MonoBehaviour {
 			continue_button.interactable = false;
 			load_game_button.interactable = false;
 		}
+	}
+
+	public void changeSettings () {
+
 	}
 }
