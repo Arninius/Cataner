@@ -102,7 +102,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void changeSettings () {
-		PlayerPrefs.SetInt ("submesh_size", Mathf.Max(1, int.Parse(submesh_size.text)));
+		PlayerPrefs.SetInt ("submesh_size", Mathf.Max(10, int.Parse(submesh_size.text)));
 		PlayerPrefs.Save ();
 	}
 
