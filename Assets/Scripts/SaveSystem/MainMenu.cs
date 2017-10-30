@@ -26,9 +26,9 @@ public class MainMenu : MonoBehaviour {
 
 	void Start()
 	{
-		int saveAmount = SaveLoad.saveAmount ();
-		if (saveAmount > 0) {
-			for (int i = 0; i < saveAmount; i++) {
+		int gameAmount = SaveLoad.getAmount ();
+		if (gameAmount > 0) {
+			for (int i = 0; i < gameAmount; i++) {
 				string name = SaveLoad.getName (i);
 				GameObject b = Instantiate (LG_Button_Prefab, LG_Panel);
 				b.transform.GetChild (0).GetChild (0).GetComponent<Text>().text = name;
@@ -68,25 +68,27 @@ public class MainMenu : MonoBehaviour {
             float.Parse (wave_height.text)
         );
 		GameData.current = gd;
-		SaveLoad.newGame (game_name.text);
+		SaveLoad.newPath (game_name.text);
 		SaveLoad.saveGame ();
 		SceneManager.LoadScene ("Game");
 	}
 
 	public void latestGame() {
-		SaveLoad.latestGame ();
+		SaveLoad.setPathLatest ();
+		SaveLoad.loadGame ();
 		SceneManager.LoadScene ("Game");
 	}
 	
 	public void loadGame(string name) {
-		SaveLoad.loadGame (name);
+		SaveLoad.setPath (name);
+		SaveLoad.loadGame ();
 		SceneManager.LoadScene ("Game");
 	}
 
 	public void deleteGame(string name, GameObject b) {
 		SaveLoad.deleteGame (name);
 		Destroy (b);
-		if (SaveLoad.saveAmount() == 0) {
+		if (SaveLoad.getAmount() == 0) {
 			continue_button.interactable = false;
 			load_game_button.interactable = false;
 		}
