@@ -16,8 +16,8 @@ public class MainMenu : MonoBehaviour {
 	//GameData
 	public InputField game_name;
 	public InputField x_size, z_size, y_size;
-	public InputField world_seed, noise_interval;
-	public InputField noise_octaves;
+	public InputField seed, frequency;
+	public InputField octaves;
 	public InputField water_height, wave_height;
 
 	//Options
@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour {
 	void Start()
 	{
 		if (PlayerPrefs.GetInt ("submesh_size") == 0)
-			PlayerPrefs.SetInt ("submesh_size", 100);
+			PlayerPrefs.SetInt ("submesh_size", 200);
 		submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
 
 		NG_buttons [NG_selected_menu].image.color = Color.grey;
@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void generateSeed() {
-		world_seed.text = System.Environment.TickCount.ToString();
+		seed.text = System.Environment.TickCount.ToString();
 	}
 
 	public void NGselectMenu(int i) {
@@ -68,9 +68,9 @@ public class MainMenu : MonoBehaviour {
             int.Parse (x_size.text),
             int.Parse (z_size.text),
             int.Parse (y_size.text),
-            int.Parse (world_seed.text),
-            float.Parse (noise_interval.text),
-            int.Parse (noise_octaves.text),
+            int.Parse (seed.text),
+            float.Parse (frequency.text),
+            int.Parse (octaves.text),
             int.Parse (water_height.text),
             float.Parse (wave_height.text)
         );
@@ -102,7 +102,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void changeSettings () {
-		PlayerPrefs.SetInt ("submesh_size", Mathf.Max(10, int.Parse(submesh_size.text)));
+		PlayerPrefs.SetInt ("submesh_size", Mathf.Clamp(int.Parse(submesh_size.text), 10, 254));
 		PlayerPrefs.Save ();
 	}
 

@@ -5,15 +5,19 @@ public class WorldManager : MonoBehaviour {
 
     public MeshManager sub_mesh_prefab;
 	public WaterTile water_tile_prefab;
-    MeshManager[,] sub_meshes;
-	int submesh_size;
 	GameData data = GameData.current;
+	IntVector2 size; //MÖGLICHERWEISE IN START VERLEGEN FALLS NICHT GEBRAUCHT, SONST EVTL AUCH PUBLIC MACHEN
+	int submesh_size;
+    MeshManager[,] sub_meshes;
 
     void Start()
 	{
 		submesh_size = PlayerPrefs.GetInt("submesh_size");
-		int cols = Mathf.CeilToInt(data.x_size / (float)submesh_size);
-		int rows = Mathf.CeilToInt(data.z_size / (float)submesh_size);
+		size.x = data.world_tiles.GetLength (0);
+		size.z = data.world_tiles.GetLength (1);
+
+		int cols = Mathf.CeilToInt(size.x / (float)submesh_size);
+		int rows = Mathf.CeilToInt(size.z / (float)submesh_size);
         sub_meshes = new MeshManager[cols, rows];
 
 		int x, z;
@@ -24,7 +28,7 @@ public class WorldManager : MonoBehaviour {
 
                 //Calculate Position and Size of Submesh
 				IntVector2 sub_pos = new IntVector2(x * submesh_size, z * submesh_size);
-				IntVector2 sub_size = new IntVector2(Mathf.Min(submesh_size, data.x_size - sub_pos.x), Mathf.Min(submesh_size, data.z_size - sub_pos.z));
+				IntVector2 sub_size = new IntVector2(Mathf.Min(submesh_size, size.x - sub_pos.x), Mathf.Min(submesh_size, size.z - sub_pos.z));
                 IntVector2 sub_vsize = sub_size + 1;
 
 				//Generate Mesh Data
@@ -43,7 +47,7 @@ public class WorldManager : MonoBehaviour {
                 for (sub_x = 0; sub_x < sub_vsize.x; sub_x++) {
                     for (sub_z = 0; sub_z < sub_vsize.z; sub_z++) {
                         int index = sub_z * sub_vsize.x + sub_x;
-						water_times [index] = data.water_times[sub_pos.x + sub_x, sub_pos.z + sub_z];
+						water_times [index] = data.distToCenter(sub_pos.x + sub_x, sub_pos.z + sub_z) % (2 * Mathf.PI);
 						world_vertices[index] = new Vector3(sub_x, data.elevations[sub_pos.x + sub_x, sub_pos.z + sub_z], sub_z);
 						water_vertices[index] = new Vector3(sub_x, 0, sub_z);
                         normals[index] = Vector3.up;
