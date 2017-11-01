@@ -22,6 +22,9 @@ public class MainMenu : MonoBehaviour {
 
 	//Options
 	public InputField submesh_size;
+	public InputField camera_move_speed;
+	public InputField camera_zoom_speed;
+	public InputField camera_rotate_speed;
 
 	//Load Game
 	public GameObject LG_Button_Prefab;
@@ -32,6 +35,15 @@ public class MainMenu : MonoBehaviour {
 		if (PlayerPrefs.GetInt ("submesh_size") == 0)
 			PlayerPrefs.SetInt ("submesh_size", 200);
 		submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
+		if (PlayerPrefs.GetInt ("camera_move_speed") == 0)
+			PlayerPrefs.SetInt ("camera_move_speed", 400);
+		camera_move_speed.text = PlayerPrefs.GetInt ("camera_move_speed").ToString();
+		if (PlayerPrefs.GetInt ("camera_zoom_speed") == 0)
+			PlayerPrefs.SetInt ("camera_zoom_speed", 40);
+		camera_zoom_speed.text = PlayerPrefs.GetInt ("camera_zoom_speed").ToString();
+		if (PlayerPrefs.GetInt ("camera_rotate_speed") == 0)
+			PlayerPrefs.SetInt ("camera_rotate_speed", 4);
+		camera_rotate_speed.text = PlayerPrefs.GetInt ("camera_rotate_speed").ToString();
 
 		NG_buttons [NG_selected_menu].image.color = Color.grey;
 
@@ -103,6 +115,9 @@ public class MainMenu : MonoBehaviour {
 
 	public void changeSettings () {
 		PlayerPrefs.SetInt ("submesh_size", Mathf.Clamp(int.Parse(submesh_size.text), 10, 254));
+		PlayerPrefs.SetInt ("camera_move_speed", Mathf.Abs(int.Parse(camera_move_speed.text)));
+		PlayerPrefs.SetInt ("camera_zoom_speed", Mathf.Abs(int.Parse(camera_zoom_speed.text)));
+		PlayerPrefs.SetInt ("camera_rotate_speed", Mathf.Abs(int.Parse(camera_rotate_speed.text)));
 		PlayerPrefs.Save ();
 	}
 

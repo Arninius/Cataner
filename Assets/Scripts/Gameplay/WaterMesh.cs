@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class WaterTile : MonoBehaviour {
+public class WaterMesh : MonoBehaviour {
 
 	GameData data = GameData.current;
 	MeshFilter mesh_filter;

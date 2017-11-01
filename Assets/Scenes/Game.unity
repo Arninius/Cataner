@@ -217,9 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8bcac53a1426be4c8eb1693b4aae4f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sub_mesh_prefab: {fileID: 114080160051001320, guid: 800ed58d1ed68b044b2e79116be1ccf8,
+  world_mesh_prefab: {fileID: 114080160051001320, guid: 800ed58d1ed68b044b2e79116be1ccf8,
     type: 2}
-  water_tile_prefab: {fileID: 114495540802948484, guid: 4f319b55ee4506648a8f01f680a5151c,
+  water_mesh_prefab: {fileID: 114495540802948484, guid: 4f319b55ee4506648a8f01f680a5151c,
     type: 2}
 --- !u!1 &1489826067
 GameObject:
@@ -305,13 +305,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1489826067}
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1489826073
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -322,7 +322,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1489826074
 Rigidbody:

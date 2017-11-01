@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class MeshManager : MonoBehaviour {
+public class WorldMesh : MonoBehaviour {
 
     MeshCollider mesh_collider;
     MeshRenderer mesh_renderer;

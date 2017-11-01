@@ -3,22 +3,19 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour {
 
-    public MeshManager sub_mesh_prefab;
-	public WaterTile water_tile_prefab;
+    public WorldMesh world_mesh_prefab;
+	public WaterMesh water_mesh_prefab;
 	GameData data = GameData.current;
-	IntVector2 size; //MÖGLICHERWEISE IN START VERLEGEN FALLS NICHT GEBRAUCHT, SONST EVTL AUCH PUBLIC MACHEN
 	int submesh_size;
-    MeshManager[,] sub_meshes;
+    WorldMesh[,] sub_meshes;
 
     void Start()
 	{
 		submesh_size = PlayerPrefs.GetInt("submesh_size");
-		size.x = data.world_tiles.GetLength (0);
-		size.z = data.world_tiles.GetLength (1);
 
-		int cols = Mathf.CeilToInt(size.x / (float)submesh_size);
-		int rows = Mathf.CeilToInt(size.z / (float)submesh_size);
-        sub_meshes = new MeshManager[cols, rows];
+		int cols = Mathf.CeilToInt(data.x_size / (float)submesh_size);
+		int rows = Mathf.CeilToInt(data.z_size / (float)submesh_size);
+        sub_meshes = new WorldMesh[cols, rows];
 
 		int x, z;
 
@@ -28,7 +25,7 @@ public class WorldManager : MonoBehaviour {
 
                 //Calculate Position and Size of Submesh
 				IntVector2 sub_pos = new IntVector2(x * submesh_size, z * submesh_size);
-				IntVector2 sub_size = new IntVector2(Mathf.Min(submesh_size, size.x - sub_pos.x), Mathf.Min(submesh_size, size.z - sub_pos.z));
+				IntVector2 sub_size = new IntVector2(Mathf.Min(submesh_size, data.x_size - sub_pos.x), Mathf.Min(submesh_size, data.z_size - sub_pos.z));
                 IntVector2 sub_vsize = sub_size + 1;
 
 				//Generate Mesh Data
@@ -81,7 +78,7 @@ public class WorldManager : MonoBehaviour {
 				world_mesh.uv = uv;
 
 				//Instantiate Submesh
-				MeshManager m = Instantiate(sub_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, 0, transform.position.z + sub_pos.z), transform.rotation, transform);
+				WorldMesh m = Instantiate(world_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, 0, transform.position.z + sub_pos.z), transform.rotation, transform);
 				m.construct(world_mesh, texture);
 				sub_meshes[x, z] = m;
 
@@ -91,8 +88,8 @@ public class WorldManager : MonoBehaviour {
 				water_mesh.triangles = triangles;
 				water_mesh.normals = normals;
 
-				//Instantiate water_tile
-				WaterTile w = Instantiate(water_tile_prefab, new Vector3(transform.position.x + sub_pos.x, data.water_height, transform.position.z + sub_pos.z), transform.rotation, transform);
+				//Instantiate water_mesh
+				WaterMesh w = Instantiate(water_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, data.water_height, transform.position.z + sub_pos.z), transform.rotation, transform);
 				w.construct (water_mesh, water_times);
             }
         }

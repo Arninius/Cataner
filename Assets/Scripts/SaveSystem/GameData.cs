@@ -13,10 +13,14 @@ public class GameData
 	public int water_height;
 	public float wave_height;
 
+	//Sorry
+	public int x_size, y_size, z_size;
+
 	//Camera
 	public float cam_pos_x;
 	public float cam_pos_z;
 	public float cam_pos_y;
+	public float rotation;
 
 	public GameData(
 		int x_size,
@@ -28,6 +32,9 @@ public class GameData
 		int water_height,
 		float wave_height)
 	{
+		this.x_size = x_size;
+		this.y_size = y_size;
+		this.z_size = z_size;
 		this.water_height = water_height;
 		this.wave_height = wave_height;
 
@@ -71,8 +78,6 @@ public class GameData
 					elevations [x, z + 1],
 					elevations [x + 1, z + 1]
 				};
-				//if (Mathf.Max (edges) < water_height + wave_height)
-				//	wd.setColor (Color.blue);
 				if (Mathf.Min (edges) < water_height + wave_height)
 					wd.setColor (Color.yellow);
 				else {
@@ -88,9 +93,9 @@ public class GameData
 			}
 		}
 
-		cam_pos_x = x_size / 2f;
-		cam_pos_z = z_size / 2f;
-		cam_pos_y = 320;
+		cam_pos_x = x_center;
+		cam_pos_z = z_center;
+		cam_pos_y = y_size + water_height + 10;
 	}
 
 	int newSeed() {
