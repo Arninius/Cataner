@@ -10,8 +10,6 @@ public class CameraManager : MonoBehaviour {
 
 	void Start() {
 		transform.position = new Vector3 (data.cam_pos_x, data.cam_pos_y, data.cam_pos_z);
-		//Debug.Log (data.cam_pos_x);
-		//Debug.Log (transform.position.x);
 	}
 
 	void FixedUpdate()
@@ -29,6 +27,8 @@ public class CameraManager : MonoBehaviour {
 		else if (Input.mousePosition.y == Screen.height - 1)
 			force_z = moveSpeed;
 		if (transform.position.y < 400 || scroll < 0) force_y = scroll * zoomSpeed;
-		GetComponent<Rigidbody>().AddForce (force_x, force_y, force_z, ForceMode.VelocityChange);
+
+		if(Input.GetKey(KeyCode.LeftAlt)) GetComponent<Rigidbody>().AddTorque(force_x, force_y, force_z, ForceMode.VelocityChange);
+		else GetComponent<Rigidbody>().AddForce (force_z, force_y, force_x, ForceMode.VelocityChange);
 	}
 }
