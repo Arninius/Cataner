@@ -28,7 +28,7 @@ public class CameraManager : MonoBehaviour {
 			force_z = moveSpeed;
 		if (transform.position.y < 400 || scroll < 0) force_y = scroll * zoomSpeed;
 
-		if(Input.GetKey(KeyCode.LeftAlt)) GetComponent<Rigidbody>().AddTorque(force_z, -force_x, force_y, ForceMode.VelocityChange);
+		if(Input.GetKey(KeyCode.LeftAlt)) GetComponent<Rigidbody>().AddTorque(-force_z, force_x, force_y, ForceMode.VelocityChange);
 		else GetComponent<Rigidbody>().AddForce (force_x, force_y, force_z, ForceMode.VelocityChange);
 	}
 }
