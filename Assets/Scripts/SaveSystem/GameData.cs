@@ -9,7 +9,7 @@ public class GameData
 	//World
 	public float[,] elevations;
 	public WorldTile[,] world_tiles;
-	public int x_center, z_center;
+	public float x_center, z_center;
 	public int water_height;
 	public float wave_height;
 
@@ -49,7 +49,7 @@ public class GameData
 			}
 		}
 
-		x_center = x_size / 2; z_center = z_size / 2;
+		x_center = x_size / 2f; z_center = z_size / 2f;
 		float max_dist = Mathf.Max(x_center, x_size - x_center, z_center, z_size - z_center);
 
 		for (x = 0; x <= x_size; x++) {
