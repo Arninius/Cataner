@@ -22,6 +22,8 @@ public class MainMenu : MonoBehaviour {
 
 	//Options
 	public InputField submesh_size;
+	public InputField water_submesh_size;
+	public InputField water_tiles_per_submesh;
 	public InputField camera_move_speed;
 	public InputField camera_zoom_speed;
 	public InputField camera_rotate_speed;
@@ -32,9 +34,16 @@ public class MainMenu : MonoBehaviour {
 
 	void Start()
 	{
+		PlayerPrefs.DeleteAll ();
 		if (PlayerPrefs.GetInt ("submesh_size") == 0)
 			PlayerPrefs.SetInt ("submesh_size", 200);
 		submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
+		if (PlayerPrefs.GetInt ("water_submesh_size") == 0)
+			PlayerPrefs.SetInt ("water_submesh_size", 200);
+		water_submesh_size.text = PlayerPrefs.GetInt ("water_submesh_size").ToString();
+		if (PlayerPrefs.GetInt ("water_tiles_per_submesh") == 0)
+			PlayerPrefs.SetInt ("water_tiles_per_submesh", 200);
+		water_tiles_per_submesh.text = PlayerPrefs.GetInt ("water_tiles_per_submesh").ToString();
 		if (PlayerPrefs.GetInt ("camera_move_speed") == 0)
 			PlayerPrefs.SetInt ("camera_move_speed", 400);
 		camera_move_speed.text = PlayerPrefs.GetInt ("camera_move_speed").ToString();
@@ -77,14 +86,14 @@ public class MainMenu : MonoBehaviour {
 
 	public void newGame() {
 		GameData gd = new GameData (
-            int.Parse (x_size.text),
-            int.Parse (z_size.text),
-            int.Parse (y_size.text),
-            int.Parse (seed.text),
-            float.Parse (frequency.text),
-            int.Parse (octaves.text),
-            int.Parse (water_height.text),
-            float.Parse (wave_height.text)
+			Mathf.Abs(int.Parse   (x_size.text)),
+			Mathf.Abs(int.Parse   (z_size.text)),
+			Mathf.Abs(int.Parse   (y_size.text)),
+					  int.Parse   (seed.text),
+			Mathf.Abs(float.Parse (frequency.text)),
+			Mathf.Abs(int.Parse   (octaves.text)),
+			Mathf.Abs(int.Parse   (water_height.text)),
+			Mathf.Abs(float.Parse (wave_height.text))
         );
 		GameData.current = gd;
 		SaveLoad.newPath (game_name.text);
@@ -115,6 +124,8 @@ public class MainMenu : MonoBehaviour {
 
 	public void changeSettings () {
 		PlayerPrefs.SetInt ("submesh_size", Mathf.Clamp(int.Parse(submesh_size.text), 10, 254));
+		PlayerPrefs.SetInt ("water_submesh_size", Mathf.Clamp(int.Parse(water_submesh_size.text), 10, 254));
+		PlayerPrefs.SetInt ("water_tiles_per_submesh", Mathf.Abs(int.Parse(water_tiles_per_submesh.text)));
 		PlayerPrefs.SetInt ("camera_move_speed", Mathf.Abs(int.Parse(camera_move_speed.text)));
 		PlayerPrefs.SetInt ("camera_zoom_speed", Mathf.Abs(int.Parse(camera_zoom_speed.text)));
 		PlayerPrefs.SetInt ("camera_rotate_speed", Mathf.Abs(int.Parse(camera_rotate_speed.text)));

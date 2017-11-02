@@ -12,6 +12,8 @@ public class WorldManager : MonoBehaviour {
     void Start()
 	{
 		submesh_size = PlayerPrefs.GetInt("submesh_size");
+		int water_submesh_size = PlayerPrefs.GetInt ("water_submesh_size");
+		int water_tiles_per_submesh = PlayerPrefs.GetInt ("water_tiles_per_submesh");
 
 		int cols = Mathf.CeilToInt(data.x_size / (float)submesh_size);
 		int rows = Mathf.CeilToInt(data.z_size / (float)submesh_size);
@@ -34,8 +36,8 @@ public class WorldManager : MonoBehaviour {
 				int[] triangles = new int[sub_size.x * sub_size.z * 6];
 				Texture2D texture = new Texture2D(sub_size.x, sub_size.z);
 				Vector3[] world_vertices = new Vector3[num_verts];
-				Vector3[] water_vertices = new Vector3[num_verts];
-				float[] water_times = new float[num_verts];
+				//Vector3[] water_vertices = new Vector3[num_verts];
+				//float[] water_times = new float[num_verts];
 				Vector2[] uv = new Vector2[num_verts];
 
                 int sub_x, sub_z;
@@ -44,9 +46,9 @@ public class WorldManager : MonoBehaviour {
                 for (sub_x = 0; sub_x < sub_vsize.x; sub_x++) {
                     for (sub_z = 0; sub_z < sub_vsize.z; sub_z++) {
                         int index = sub_z * sub_vsize.x + sub_x;
-						water_times [index] = data.distToCenter(sub_pos.x + sub_x, sub_pos.z + sub_z) % (2 * Mathf.PI);
+						//water_times [index] = data.distToCenter(sub_pos.x + sub_x, sub_pos.z + sub_z) % (2 * Mathf.PI);
 						world_vertices[index] = new Vector3(sub_x, data.elevations[sub_pos.x + sub_x, sub_pos.z + sub_z], sub_z);
-						water_vertices[index] = new Vector3(sub_x, 0, sub_z);
+						//water_vertices[index] = new Vector3(sub_x, 0, sub_z);
                         normals[index] = Vector3.up;
                         uv[index] = new Vector2((float)sub_x / sub_size.x, 1f - (float)sub_z / sub_size.z);
                     }
@@ -57,7 +59,7 @@ public class WorldManager : MonoBehaviour {
                     for (sub_z = 0; sub_z < sub_size.z; sub_z++) {
 						int index = sub_z * sub_vsize.x + sub_x;
                         int triOffset = (sub_z * sub_size.x + sub_x) * 6;
-						triangles[triOffset] = index;
+						triangles[triOffset + 0] = index;
 						triangles[triOffset + 1] = index + sub_vsize.x;
 						triangles[triOffset + 2] = index + sub_vsize.x + 1;
 						triangles[triOffset + 3] = index;
@@ -83,14 +85,14 @@ public class WorldManager : MonoBehaviour {
 				sub_meshes[x, z] = m;
 
 				//Create water mesh
-				Mesh water_mesh = new Mesh();
-				water_mesh.vertices = water_vertices;
-				water_mesh.triangles = triangles;
-				water_mesh.normals = normals;
+				//Mesh water_mesh = new Mesh();
+				//water_mesh.vertices = water_vertices;
+				//water_mesh.triangles = triangles;
+				//water_mesh.normals = normals;
 
 				//Instantiate water_mesh
-				WaterMesh w = Instantiate(water_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, data.water_height, transform.position.z + sub_pos.z), transform.rotation, transform);
-				w.construct (water_mesh, water_times);
+				//WaterMesh w = Instantiate(water_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, data.water_height, transform.position.z + sub_pos.z), transform.rotation, transform);
+				//w.construct (water_mesh, water_times);
             }
         }
     }

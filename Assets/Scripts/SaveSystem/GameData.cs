@@ -65,7 +65,7 @@ public class GameData
 				elevations [x, z] += 1; elevations [x, z] /= 2; //auf [0, 1] umrechnen
 				float d = distToCenter (x, z) / max_dist;
 				elevations [x, z] *= y_size;
-				elevations [x, z] += water_height - (water_height) * Mathf.Pow(d, 2f);
+				elevations [x, z] += water_height - water_height * Mathf.Pow(d, 2f);
 			}
 		}
 
