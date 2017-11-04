@@ -9,7 +9,6 @@ public class GameData
 	//World
 	public float[,] elevations;
 	public WorldTile[,] world_tiles;
-	public int water_height;
 	public float wave_height;
 
 	//Sorry
@@ -24,18 +23,16 @@ public class GameData
 
 	public GameData(
 		int x_size,
-		int z_size,
 		int y_size,
+		int z_size,
 		int seed,
 		float frequency,
 		int octaves,
-		int water_height,
 		float wave_height)
 	{
 		this.x_size = x_size;
 		this.y_size = y_size;
 		this.z_size = z_size;
-		this.water_height = water_height;
 		this.wave_height = wave_height;
 
 		elevations = new float[x_size + 1, z_size + 1];
@@ -66,8 +63,7 @@ public class GameData
 			for (z = 0; z <= z_size; z++) {
 				float d = Mathf.Pow(distToCenter (x, z) / max_dist, 2f);
 				elevations [x, z] /= dividend / y_size;
-				elevations [x, z] += water_height + y_size;
-				elevations [x, z] -= 2 * d * y_size;
+				elevations [x, z] += (1 - 2 * d) * y_size;
 			}
 		}
 
@@ -80,18 +76,16 @@ public class GameData
 					elevations [x, z + 1],
 					elevations [x + 1, z + 1]
 				};
-				if (Mathf.Min (edges) < water_height + wave_height)
+				if (Mathf.Min (edges) < wave_height)
 					wd.setColor (Color.yellow);
 				else {
-					float height = (edges [0] + edges [1] + edges [2] + edges [3]) / 4f;
-					height -= water_height;
-					height /= y_size; //[0, 2]
+					float height = (edges [0] + edges [1] + edges [2] + edges [3]) / 4f / y_size;
 
 					if (height > 1.5f)
 						wd.setColor (Color.grey);
 
 					else
-						wd.setColor (0, 1.5f-height, 0);
+						wd.setColor (0, 1.5f - height, 0);
 				}
 				world_tiles [x, z] = wd;
 			}
@@ -99,7 +93,7 @@ public class GameData
 
 		cam_pos_x = x_center;
 		cam_pos_z = z_center;
-		cam_pos_y = y_size + water_height + 10;
+		cam_pos_y = y_size * 2 + 10;
 	}
 
 	int newSeed() {

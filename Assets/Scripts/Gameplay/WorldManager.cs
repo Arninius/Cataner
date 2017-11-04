@@ -137,7 +137,7 @@ public class WorldManager : MonoBehaviour {
 				water_mesh.normals = normals;
 
 				//Instantate Submesh
-				WaterMesh w = Instantiate(water_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, data.water_height, transform.position.z + sub_pos.z), transform.rotation, transform);
+				WaterMesh w = Instantiate(water_mesh_prefab, new Vector3(transform.position.x + sub_pos.x, 0, transform.position.z + sub_pos.z), transform.rotation, transform);
 				w.construct (water_mesh, times);
 			}
 		}
