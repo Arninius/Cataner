@@ -79,13 +79,13 @@ public class GameData
 				if (Mathf.Min (edges) < wave_height)
 					wd.setColor (Color.yellow);
 				else {
-					float height = (edges [0] + edges [1] + edges [2] + edges [3]) / 4f / y_size;
+					float height = (edges [0] + edges [1] + edges [2] + edges [3]) / 4f;
 
-					if (height > 1.5f)
+					if (height > 150)
 						wd.setColor (Color.grey);
 
 					else
-						wd.setColor (0, 1.5f - height, 0);
+						wd.setColor (0, (150 - height) / 150f, 0);
 				}
 				world_tiles [x, z] = wd;
 			}
