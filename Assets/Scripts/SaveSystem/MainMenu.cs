@@ -35,26 +35,25 @@ public class MainMenu : MonoBehaviour {
 
 	void Start()
 	{
-		if (PlayerPrefs.GetInt ("submesh_size") == 0)
-			PlayerPrefs.SetInt ("submesh_size", 200);
+		if (!PlayerPrefs.HasKey ("submesh_size")) PlayerPrefs.SetInt ("submesh_size", 200);
 		submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
-		if (PlayerPrefs.GetInt ("wave_size") == 0)
-			PlayerPrefs.SetInt ("wave_size", 10);
+
+		if (!PlayerPrefs.HasKey ("wave_size")) PlayerPrefs.SetInt ("wave_size", 10);
 		wave_size.text = PlayerPrefs.GetInt ("wave_size").ToString();
-		if (PlayerPrefs.GetInt ("water_submesh_size") == 0)
-			PlayerPrefs.SetInt ("water_submesh_size", 200);
+
+		if (!PlayerPrefs.HasKey ("water_submesh_size")) PlayerPrefs.SetInt ("water_submesh_size", 200);
 		water_submesh_size.text = PlayerPrefs.GetInt ("water_submesh_size").ToString();
-		if (PlayerPrefs.GetInt ("water_tiles_per_submesh") == 0)
-			PlayerPrefs.SetInt ("water_tiles_per_submesh", 200);
+
+		if (!PlayerPrefs.HasKey ("water_tiles_per_submesh")) PlayerPrefs.SetInt ("water_tiles_per_submesh", 200);
 		water_tiles_per_submesh.text = PlayerPrefs.GetInt ("water_tiles_per_submesh").ToString();
-		if (PlayerPrefs.GetInt ("camera_move_speed") == 0)
-			PlayerPrefs.SetInt ("camera_move_speed", 400);
+
+		if (!PlayerPrefs.HasKey ("camera_move_speed")) PlayerPrefs.SetInt ("camera_move_speed", 400);
 		camera_move_speed.text = PlayerPrefs.GetInt ("camera_move_speed").ToString();
-		if (PlayerPrefs.GetInt ("camera_zoom_speed") == 0)
-			PlayerPrefs.SetInt ("camera_zoom_speed", 40);
+
+		if (!PlayerPrefs.HasKey ("camera_zoom_speed")) PlayerPrefs.SetInt ("camera_zoom_speed", 40);
 		camera_zoom_speed.text = PlayerPrefs.GetInt ("camera_zoom_speed").ToString();
-		if (PlayerPrefs.GetInt ("camera_rotate_speed") == 0)
-			PlayerPrefs.SetInt ("camera_rotate_speed", 4);
+
+		if (!PlayerPrefs.HasKey ("camera_rotate_speed")) PlayerPrefs.SetInt ("camera_rotate_speed", 4);
 		camera_rotate_speed.text = PlayerPrefs.GetInt ("camera_rotate_speed").ToString();
 
 		NG_buttons [NG_selected_menu].image.color = Color.grey;
@@ -126,13 +125,36 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void changeSettings () {
-		PlayerPrefs.SetInt ("submesh_size", Mathf.Clamp(int.Parse(submesh_size.text), 10, 254));
-		PlayerPrefs.SetInt ("wave_size", Mathf.Abs(int.Parse(wave_size.text)));
-		PlayerPrefs.SetInt ("water_submesh_size", Mathf.Max(int.Parse(water_submesh_size.text), 1));
-		PlayerPrefs.SetInt ("water_tiles_per_submesh", Mathf.Clamp(int.Parse(water_tiles_per_submesh.text), 10, 254));
-		PlayerPrefs.SetInt ("camera_move_speed", Mathf.Abs(int.Parse(camera_move_speed.text)));
-		PlayerPrefs.SetInt ("camera_zoom_speed", Mathf.Abs(int.Parse(camera_zoom_speed.text)));
-		PlayerPrefs.SetInt ("camera_rotate_speed", Mathf.Abs(int.Parse(camera_rotate_speed.text)));
+		int setting;
+
+		setting = int.Parse (submesh_size.text);
+		if (setting > 0 && setting <= 254) PlayerPrefs.SetInt ("submesh_size", setting);
+		else submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
+
+		setting = int.Parse (wave_size.text);
+		if (setting > 0) PlayerPrefs.SetInt ("wave_size", setting);
+		else wave_size.text = PlayerPrefs.GetInt ("wave_size").ToString();
+
+		setting = int.Parse (water_submesh_size.text);
+		if (setting > 0) PlayerPrefs.SetInt ("water_submesh_size", setting);
+		else water_submesh_size.text = PlayerPrefs.GetInt ("water_submesh_size").ToString();
+
+		setting = int.Parse (water_tiles_per_submesh.text);
+		if (setting > 0 && setting <= 254) PlayerPrefs.SetInt ("water_tiles_per_submesh", setting);
+		else water_tiles_per_submesh.text = PlayerPrefs.GetInt ("water_tiles_per_submesh").ToString();
+
+		setting = int.Parse (camera_move_speed.text);
+		if (setting >= 0) PlayerPrefs.SetInt ("camera_move_speed", setting);
+		else camera_move_speed.text = PlayerPrefs.GetInt ("camera_move_speed").ToString();
+
+		setting = int.Parse (camera_zoom_speed.text);
+		if (setting >= 0) PlayerPrefs.SetInt ("camera_zoom_speed", setting);
+		else camera_zoom_speed.text = PlayerPrefs.GetInt ("camera_zoom_speed").ToString();
+
+		setting = int.Parse (camera_rotate_speed.text);
+		if (setting >= 0) PlayerPrefs.SetInt ("camera_rotate_speed", setting);
+		else camera_rotate_speed.text = PlayerPrefs.GetInt ("camera_rotate_speed").ToString();
+
 		PlayerPrefs.Save ();
 	}
 

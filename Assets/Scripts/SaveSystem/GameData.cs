@@ -9,11 +9,11 @@ public class GameData
 	//World
 	public float[,] elevations;
 	public WorldTile[,] world_tiles;
-	public float x_center, z_center;
 	public int water_height;
 	public float wave_height;
 
 	//Sorry
+	public float x_center, z_center;
 	public int x_size, y_size, z_size;
 
 	//Camera
@@ -45,27 +45,29 @@ public class GameData
 
 		int x, z;
 		int sub_seed = newSeed();
+		float dividend = 0;
 
 		for (int i = 1; i <= octaves; i++) {
 			float interval = i / frequency;
+			float weight = 1f / i;
+			dividend += weight;
 			sub_seed = newSeed();
 			for (x = 0; x <= x_size; x++) {
 				for (z = 0; z <= z_size; z++) {
-					elevations [x, z] += 1f/i * (float)SimplexNoise.noise (x * interval, sub_seed, z * interval);
+					elevations [x, z] += weight * (float)SimplexNoise.noise (x * interval, sub_seed, z * interval);
 				}
 			}
 		}
 
 		x_center = x_size / 2f; z_center = z_size / 2f;
-		float max_dist = Mathf.Max(x_center, x_size - x_center, z_center, z_size - z_center);
+		float max_dist = Mathf.Min(x_center, x_size - x_center, z_center, z_size - z_center);
 
 		for (x = 0; x <= x_size; x++) {
 			for (z = 0; z <= z_size; z++) {
-				elevations [x, z] /= 2 - 1f / octaves; //auf [-1, 1] begrenzen
-				elevations [x, z] += 1; elevations [x, z] /= 2; //auf [0, 1] umrechnen
-				float d = distToCenter (x, z) / max_dist;
-				elevations [x, z] *= y_size;
-				elevations [x, z] += water_height - water_height * Mathf.Pow(d, 2f);
+				float d = Mathf.Pow(distToCenter (x, z) / max_dist, 2f);
+				elevations [x, z] /= dividend / y_size;
+				elevations [x, z] += water_height + y_size;
+				elevations [x, z] -= 2 * d * y_size;
 			}
 		}
 
@@ -81,13 +83,15 @@ public class GameData
 				if (Mathf.Min (edges) < water_height + wave_height)
 					wd.setColor (Color.yellow);
 				else {
-					float adjusted_average = ((edges[0] + edges[1] + edges[2] + edges[3]) / 4f - water_height) / y_size;
-				
-					if (adjusted_average > 0.7f)
+					float height = (edges [0] + edges [1] + edges [2] + edges [3]) / 4f;
+					height -= water_height;
+					height /= y_size; //[0, 2]
+
+					if (height > 1.5f)
 						wd.setColor (Color.grey);
 
 					else
-						wd.setColor (0, 1-adjusted_average, 0);
+						wd.setColor (0, 1.5f-height, 0);
 				}
 				world_tiles [x, z] = wd;
 			}
