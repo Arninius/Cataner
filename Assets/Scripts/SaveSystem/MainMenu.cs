@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour {
 	public InputField x_size, z_size, y_size;
 	public InputField seed, frequency;
 	public InputField octaves;
+	public InputField exponent;
 	public InputField wave_height;
 
 	//Options
@@ -94,6 +95,7 @@ public class MainMenu : MonoBehaviour {
 					  int.Parse   (seed.text),
 			Mathf.Abs(float.Parse (frequency.text)),
 			Mathf.Abs(int.Parse   (octaves.text)),
+			Mathf.Abs(float.Parse (exponent.text)),
 			Mathf.Abs(float.Parse (wave_height.text))
         );
 		GameData.current = gd;

@@ -28,6 +28,7 @@ public class GameData
 		int seed,
 		float frequency,
 		int octaves,
+		float exponent,
 		float wave_height)
 	{
 		this.x_size = x_size;
@@ -61,7 +62,7 @@ public class GameData
 
 		for (x = 0; x <= x_size; x++) {
 			for (z = 0; z <= z_size; z++) {
-				float d = Mathf.Pow(distToCenter (x, z) / max_dist, 2f);
+				float d = Mathf.Pow(distToCenter (x, z) / max_dist, exponent);
 				elevations [x, z] /= dividend / y_size;
 				elevations [x, z] += (1 - 2 * d) * y_size;
 			}
@@ -85,7 +86,7 @@ public class GameData
 						wd.setColor (Color.grey);
 
 					else
-						wd.setColor (0, (150 - height) / 150f, 0);
+						wd.setColor (0, (200 - height) / 200f, 0);
 				}
 				world_tiles [x, z] = wd;
 			}
