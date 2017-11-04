@@ -22,6 +22,7 @@ public class MainMenu : MonoBehaviour {
 
 	//Options
 	public InputField submesh_size;
+	public InputField wave_size;
 	public InputField water_submesh_size;
 	public InputField water_tiles_per_submesh;
 	public InputField camera_move_speed;
@@ -34,10 +35,12 @@ public class MainMenu : MonoBehaviour {
 
 	void Start()
 	{
-		PlayerPrefs.DeleteAll ();
 		if (PlayerPrefs.GetInt ("submesh_size") == 0)
 			PlayerPrefs.SetInt ("submesh_size", 200);
 		submesh_size.text = PlayerPrefs.GetInt ("submesh_size").ToString();
+		if (PlayerPrefs.GetInt ("wave_size") == 0)
+			PlayerPrefs.SetInt ("wave_size", 10);
+		wave_size.text = PlayerPrefs.GetInt ("wave_size").ToString();
 		if (PlayerPrefs.GetInt ("water_submesh_size") == 0)
 			PlayerPrefs.SetInt ("water_submesh_size", 200);
 		water_submesh_size.text = PlayerPrefs.GetInt ("water_submesh_size").ToString();
@@ -124,8 +127,9 @@ public class MainMenu : MonoBehaviour {
 
 	public void changeSettings () {
 		PlayerPrefs.SetInt ("submesh_size", Mathf.Clamp(int.Parse(submesh_size.text), 10, 254));
-		PlayerPrefs.SetInt ("water_submesh_size", Mathf.Clamp(int.Parse(water_submesh_size.text), 10, 254));
-		PlayerPrefs.SetInt ("water_tiles_per_submesh", Mathf.Abs(int.Parse(water_tiles_per_submesh.text)));
+		PlayerPrefs.SetInt ("wave_size", Mathf.Abs(int.Parse(wave_size.text)));
+		PlayerPrefs.SetInt ("water_submesh_size", Mathf.Max(int.Parse(water_submesh_size.text), 1));
+		PlayerPrefs.SetInt ("water_tiles_per_submesh", Mathf.Clamp(int.Parse(water_tiles_per_submesh.text), 10, 254));
 		PlayerPrefs.SetInt ("camera_move_speed", Mathf.Abs(int.Parse(camera_move_speed.text)));
 		PlayerPrefs.SetInt ("camera_zoom_speed", Mathf.Abs(int.Parse(camera_zoom_speed.text)));
 		PlayerPrefs.SetInt ("camera_rotate_speed", Mathf.Abs(int.Parse(camera_rotate_speed.text)));

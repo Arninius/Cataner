@@ -102,7 +102,7 @@ public class GameData
 		return Random.Range (int.MinValue, int.MaxValue);
 	}
 
-	public float distToCenter(int x1, int z1) {
+	public float distToCenter(float x1, float z1) {
 		return Mathf.Sqrt((x1 - x_center) * (x1 - x_center) + (z1 - z_center) * (z1 - z_center));
 	}
 }
