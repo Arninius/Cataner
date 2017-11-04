@@ -54,7 +54,7 @@ public class CameraManager : MonoBehaviour {
 			force_z = Mathf.Min (0, force_z);
 
 		force_y = Input.GetAxis ("Mouse ScrollWheel") * zoom_speed;
-		if (transform.position.y >= data.y_size + data.water_height + 200)
+		if (transform.position.y >= data.y_size * 2 + 200)
 			force_y = Mathf.Min (0, force_y);
 				
 		GetComponent<Rigidbody> ().AddForce (force_x, 0, force_z, ForceMode.VelocityChange);
