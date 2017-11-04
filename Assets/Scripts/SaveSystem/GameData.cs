@@ -31,8 +31,8 @@ public class GameData
 		float wave_height)
 	{
 		this.x_size = x_size;
-		this.y_size = y_size;
 		this.z_size = z_size;
+		this.y_size = y_size;
 		this.wave_height = wave_height;
 
 		elevations = new float[x_size + 1, z_size + 1];
@@ -93,7 +93,7 @@ public class GameData
 
 		cam_pos_x = x_center;
 		cam_pos_z = z_center;
-		cam_pos_y = y_size * 2 + 10;
+		cam_pos_y = y_size * 2;
 	}
 
 	int newSeed() {
