@@ -23,8 +23,8 @@ public class GameData
 
 	public GameData(
 		int x_size,
-		int y_size,
 		int z_size,
+		int y_size,
 		int seed,
 		float frequency,
 		int octaves,
